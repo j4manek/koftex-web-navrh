@@ -198,6 +198,38 @@ label.field.file { display: block; cursor: pointer }
   .ctas .btn { width: 100% }
   .fab { display: grid; position: fixed; right: 16px; bottom: 16px; z-index: 40 }
 }
+
+/* ---- cookies ---- */
+.linkbtn { all: unset; cursor: pointer; font-size: .85rem; opacity: .75; text-decoration: none }
+.linkbtn:hover, .foot2 .row a.sm:hover { text-decoration: underline; opacity: 1 }
+.foot2 .row a.sm { font-size: .85rem; opacity: .75 }
+.linkbtn:focus-visible, .foot2 a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 3px }
+#cookie-banner { position: fixed; left: 0; right: 0; bottom: 0; z-index: 100; background: var(--s-bg); color: var(--s-fg); border-top: 1px solid var(--s-line); box-shadow: 0 -4px 20px rgba(0,0,0,.12); padding: 22px max(20px, calc((100% - 1120px) / 2)); transform: translateY(120%); transition: transform .3s; font-family: var(--sans) }
+#cookie-banner.show { transform: none }
+#cookie-banner .in { display: flex; flex-wrap: wrap; gap: 18px 40px; align-items: center; justify-content: space-between }
+#cookie-banner .tx { flex: 1 1 420px; min-width: 0 }
+#cookie-banner h3 { margin: 0 0 6px; font-size: 1.1rem; color: var(--s-blue) }
+#cookie-banner p { margin: 0; font-size: .92rem; line-height: 1.6 }
+#cookie-banner a { color: var(--s-blue); text-decoration: underline; background: none; border: 0; cursor: pointer; font: inherit; padding: 0 }
+#cookie-banner .acts { display: flex; flex-wrap: wrap; gap: 10px; flex: 0 0 auto }
+#cookie-banner .btn { min-height: 44px; padding: 0 24px; white-space: nowrap }
+@media (max-width: 760px) { #cookie-banner .acts, #cookie-banner .btn { width: 100% } #cookie-banner { max-height: 80vh; overflow-y: auto } }
+#policy { position: fixed; inset: 0; z-index: 200; background: var(--s-bg); overflow-y: auto; -webkit-overflow-scrolling: touch }
+#policy[hidden] { display: none }
+#policy .bar { position: sticky; top: 0; background: var(--s-bg); border-bottom: 1px solid var(--s-line); padding: 12px max(20px, calc((100% - 900px) / 2)); display: flex; justify-content: space-between; align-items: center; gap: 12px }
+#policy .bar b { color: var(--s-blue) }
+#policy .x { font: inherit; font-weight: 700; padding: 8px 16px; border-radius: 8px; border: 2px solid var(--s-navy); background: transparent; color: var(--s-navy); cursor: pointer }
+#policy .doc { max-width: 900px; margin: 0 auto; padding: 36px 20px 80px; font-size: 1.02rem; line-height: 1.75 }
+#policy h1 { color: var(--s-blue); font-size: 2rem; line-height: 1.2; margin: 0 0 8px }
+#policy h2 { color: var(--s-blue); font-size: 1.4rem; margin: 34px 0 10px }
+#policy h3 { font-size: 1.15rem; margin: 22px 0 8px }
+#policy p { margin: 0 0 12px }
+#policy a { color: var(--s-blue); text-decoration: underline }
+#policy div { overflow-x: auto }
+#policy table { border-collapse: collapse; width: 100%; font-size: .95rem; line-height: 1.5; min-width: 520px }
+#policy th, #policy td { border: 1px solid var(--s-line); padding: 10px 12px; text-align: left; vertical-align: top }
+#policy th { background: var(--s-soft) }
+#policy ul { margin: 0 0 12px; padding-left: 22px }
 </style>
 
 </head><body>
@@ -272,7 +304,7 @@ function render() {
     '<button class="btn" type="submit">Odeslat</button><p class="demo" id="demo" hidden>Toto je návrh vzhledu. Formulář zatím nic neodesílá.</p></form></div>' +
     '<h2 class="t sub2">Provozovny</h2><div class="prov"><div><b>Kolín</b>Na pobřeží 113,<br>280 00 Kolín<br>Telefon: +420 321 721 013<br>Vedoucí: Lenka Pařízková<br>Telefon: +420 734 318 869<br>E-mail: koftex.kolin@koftex.cz</div>' +
     '<div><b>Hradec Králové</b>Pražská třída 799/15,<br>500 04 Hradec Králové-Kukleny<br>Telefon: +420 495 537 090<br>E-mail: koftex@koftex.cz<br>Telefon: +420 777 626 191</div></div></section>';
-  var foot = '<div class="foot2"><img class="klogo-img" alt="Koftex s.r.o." src="'+LOGO_DARK+'"><div class="row"><a href="https://www.instagram.com/koftexsro/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/company/koftex/" target="_blank" rel="noopener">LinkedIn</a><a href="tel:+420777626191">+420 777 626 191</a><a href="mailto:koftex@koftex.cz">koftex@koftex.cz</a></div><span>Web na míru - Vít Vohralík</span><small>© Všechna práva vyhrazena</small><div class="row"><small>Zásady cookies</small><small>Nastavení cookies</small></div></div>';
+  var foot = '<div class="foot2"><img class="klogo-img" alt="Koftex s.r.o." src="'+LOGO_DARK+'"><div class="row"><a href="https://www.instagram.com/koftexsro/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/company/koftex/" target="_blank" rel="noopener">LinkedIn</a><a href="tel:+420777626191">+420 777 626 191</a><a href="mailto:koftex@koftex.cz">koftex@koftex.cz</a></div><span>Web na míru - Vít Vohralík</span><small>© Všechna práva vyhrazena</small><div class="row"><a class="sm" href="#zasady-cookies" id="open-policy">Zásady cookies</a><button class="linkbtn" id="open-consent" type="button">Nastavení cookies</button></div></div>';
   document.getElementById("stage").innerHTML = '<div class="site ' + STATE.d + '">' + nav + hero + strip + cards + about + kout + faq + legal + contact + foot + '</div>';
 }
 document.getElementById("stage").addEventListener("click", function (e) {
@@ -292,4 +324,174 @@ document.getElementById("stage").addEventListener("click", function (e) {
 document.getElementById("stage").addEventListener("submit", function (e) { e.preventDefault(); document.getElementById("demo").hidden = false; });
 </script>
 
+
+<div id="cookie-banner" role="dialog" aria-live="polite" aria-labelledby="cb-h"><div class="in"><div class="tx"><h3 id="cb-h">Tento web používá cookies</h3>
+<p>Pro správné fungování webu používáme nezbytné cookies. Se&nbsp;svým souhlasem využíváme také analytické a&nbsp;marketingové cookies (Google Analytics, Google Ads), které nám pomáhají vylepšovat web a&nbsp;měřit účinnost reklamy. Souhlas můžete kdykoli odvolat. Více v&nbsp;<a href="#zasady-cookies" id="cb-policy">Zásadách používání cookies</a>.</p></div>
+<div class="acts"><button class="btn ghost" type="button" data-consent="denied">Odmítnout</button><button class="btn" type="button" data-consent="granted">Přijmout vše</button></div></div></div>
+<div id="policy" role="dialog" aria-modal="true" aria-label="Zásady používání souborů cookies" hidden><div class="bar"><b>Koftex – zásady cookies</b><button class="x" type="button" id="close-policy">Zavřít</button></div><div class="doc"><h1>Zásady používání souborů cookies</h1><p>Účinnost od 26. 5. 2026</p><div>
+<h2>1. Kdo jsme</h2>
+<p>
+                        Provozovatelem webových stránek <span>koftex.cz</span> a správcem osobních údajů ve smyslu nařízení (EU) 2016/679 (GDPR) je:
+                    </p>
+<p>
+<span>Koftex s.r.o.</span><br/>
+                        Sídlo: Horova 123, 500 02 Hradec Králové<br/>
+                        IČO: 25938436<br/>
+                        Datová schránka: fcnf52x<br/>
+                        E-mail: <a href="mailto:koftex@koftex.cz">koftex@koftex.cz</a><br/>
+                        Telefon: <a href="tel:+420495537090">+420 495 537 090</a>
+</p>
+<h2>2. Co jsou cookies</h2>
+<p>
+                        Cookies jsou malé textové soubory, které se ukládají do vašeho zařízení (počítač, telefon, tablet) při návštěvě webových stránek. Slouží k zajištění funkčnosti webu, k analýze jeho používání a k měření účinnosti reklamy.
+                    </p>
+<p>
+                        Cookies používáme v souladu s § 89 odst. 3 zákona č. 127/2005 Sb., o elektronických komunikacích, a na základě vašeho souhlasu podle čl. 6 odst. 1 písm. a) GDPR. Bez vašeho souhlasu používáme pouze cookies nezbytné pro fungování webu.
+                    </p>
+<h2>3. Jaké cookies používáme</h2>
+<h3>3.1 Technicky nezbytné cookies</h3>
+<p>
+                        Tyto cookies jsou potřebné pro fungování webu – zejména pro odeslání kontaktního formuláře (ochrana proti zneužití – CSRF token) a pro uložení vaší volby ohledně cookies. Nelze je odmítnout, web by bez nich nefungoval. Tyto cookies nevyužíváme k žádnému sledování.
+                    </p>
+<div>
+<table>
+<thead>
+<tr>
+<th>Název</th>
+<th>Účel</th>
+<th>Doba uložení</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PHPSESSID</td>
+<td>Identifikace relace pro ochranu kontaktního formuláře (CSRF token).</td>
+<td>Po dobu relace</td>
+</tr>
+<tr>
+<td>koftex_cookie_consent</td>
+<td>Uložení vašeho rozhodnutí o cookies (localStorage prohlížeče).</td>
+<td>Trvale, dokud jej nesmažete</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>3.2 Analytické cookies (souhlas)</h3>
+<p>
+                        Pomáhají nám pochopit, jak návštěvníci web používají – kolik lidí web navštíví, které stránky si prohlédnou, odkud přicházejí. Data jsou anonymizována (IP adresa je zkrácena).
+                    </p>
+<div>
+<table>
+<thead>
+<tr>
+<th>Název</th>
+<th>Poskytovatel</th>
+<th>Účel</th>
+<th>Doba uložení</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_ga</td>
+<td>Google LLC (Google Analytics 4)</td>
+<td>Rozlišení unikátních návštěvníků</td>
+<td>2 roky</td>
+</tr>
+<tr>
+<td>_ga_WYBRG2D7DE</td>
+<td>Google LLC (Google Analytics 4)</td>
+<td>Uchování stavu relace</td>
+<td>2 roky</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>3.3 Marketingové cookies (souhlas)</h3>
+<p>
+                        Slouží k měření účinnosti reklamních kampaní Google Ads (např. zda návštěva, která přišla z reklamy, vedla k odeslání poptávky) a k případnému remarketingu.
+                    </p>
+<div>
+<table>
+<thead>
+<tr>
+<th>Název</th>
+<th>Poskytovatel</th>
+<th>Účel</th>
+<th>Doba uložení</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_gcl_au</td>
+<td>Google LLC (Google Ads)</td>
+<td>Měření konverzí z reklam</td>
+<td>90 dní</td>
+</tr>
+<tr>
+<td>_gcl_aw</td>
+<td>Google LLC (Google Ads)</td>
+<td>Atribuce kliknutí na reklamu</td>
+<td>90 dní</td>
+</tr>
+<tr>
+<td>NID, IDE, _gcl_dc</td>
+<td>Google LLC</td>
+<td>Remarketing, personalizace reklam</td>
+<td>až 2 roky</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>3.4 Cookies vložených map</h3>
+<p>
+                        Na stránce kontaktů zobrazujeme vložené mapy <span>Google Maps</span> (Google LLC). Pokud mapa není potřeba, jednoduše s ní neinteragujte – načtení mapy může vést k uložení cookies třetích stran. Více v <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">zásadách ochrany soukromí Google</a>.
+                    </p>
+<h2>4. Předávání údajů mimo EU</h2>
+<p>
+                        Při použití nástrojů Google (Analytics, Ads, Tag Manager, Maps) může docházet k předávání údajů do USA. Google je zapojen do programu <span>EU–U.S. Data Privacy Framework</span>, který Evropská komise uznává za odpovídající úroveň ochrany ve smyslu čl. 45 GDPR.
+                    </p>
+<h2>5. Jak udělit nebo odvolat souhlas</h2>
+<p>
+                        Při první návštěvě webu vám zobrazíme cookie lištu, kde si vyberete, zda souhlasíte s analytickými a marketingovými cookies. Souhlas je dobrovolný a můžete jej kdykoli odvolat – buď přes tlačítko <button>Nastavení cookies</button> v patičce webu, nebo smazáním cookies ve svém prohlížeči.
+                    </p>
+<p>
+                        Cookies můžete také blokovat či mazat přímo v nastavení prohlížeče – návody pro nejpoužívanější prohlížeče:
+                    </p>
+<ul>
+<li><a href="https://support.google.com/chrome/answer/95647" rel="noopener" target="_blank">Google Chrome</a></li>
+<li><a href="https://support.mozilla.org/cs/kb/Vymazání%20cookies" rel="noopener" target="_blank">Mozilla Firefox</a></li>
+<li><a href="https://support.microsoft.com/cs-cz/microsoft-edge/odstran%C4%9Bn%C3%AD-soubor%C5%AF-cookie-v-aplikaci-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" rel="noopener" target="_blank">Microsoft Edge</a></li>
+<li><a href="https://support.apple.com/cs-cz/guide/safari/sfri11471/mac" rel="noopener" target="_blank">Safari</a></li>
+</ul>
+<h2>6. Vaše práva</h2>
+<p>
+                        V souvislosti se zpracováním osobních údajů máte zejména právo na přístup k údajům, opravu, výmaz, omezení zpracování, přenositelnost údajů, právo vznést námitku a právo odvolat souhlas. Pokud máte za to, že vaše údaje zpracováváme v rozporu s právními předpisy, máte právo podat stížnost u <a href="https://www.uoou.cz" rel="noopener" target="_blank">Úřadu pro ochranu osobních údajů</a> (Pplk. Sochora 27, 170 00 Praha 7).
+                    </p>
+<p>
+                        S žádostí o uplatnění svých práv se na nás můžete obrátit na e-mailu <a href="mailto:koftex@koftex.cz">koftex@koftex.cz</a>.
+                    </p>
+<h2>7. Změny zásad</h2>
+<p>
+                        Tyto zásady můžeme v čase aktualizovat. Aktuální znění je vždy dostupné na této stránce s uvedením data účinnosti.
+                    </p>
+</div></div></div>
+<script>
+(function () {
+  var KEY = "koftex_cookie_consent", banner = document.getElementById("cookie-banner"), policy = document.getElementById("policy");
+  function show() { requestAnimationFrame(function () { banner.classList.add("show"); }); }
+  function hide() { banner.classList.remove("show"); }
+  function save(status) { try { localStorage.setItem(KEY, JSON.stringify({ status: status, date: new Date().toISOString() })); } catch (e) {} hide(); }
+  function openPolicy(e) { if (e) e.preventDefault(); policy.hidden = false; policy.scrollTop = 0; document.body.style.overflow = "hidden"; document.getElementById("close-policy").focus(); }
+  function closePolicy() { policy.hidden = true; document.body.style.overflow = ""; }
+  banner.addEventListener("click", function (e) { var b = e.target.closest("[data-consent]"); if (b) save(b.dataset.consent); if (e.target.closest("#cb-policy")) openPolicy(e); });
+  document.addEventListener("click", function (e) {
+    if (e.target.closest("#open-policy")) openPolicy(e);
+    if (e.target.closest("#open-consent")) show();
+    if (e.target.closest("#close-policy")) closePolicy();
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !policy.hidden) closePolicy(); });
+  var s = null; try { s = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+  if (!s || (s.status !== "granted" && s.status !== "denied")) show();
+})();
+</script>
 </body></html>
