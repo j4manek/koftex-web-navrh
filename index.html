@@ -5,7 +5,7 @@
 /* Layout: ovládací lišta (zařízení), rám prohlížeče nebo telefonu s maketou celé stránky, pod ním seznam změn proti současnému webu */
 :root {
   --bg: #eef1f5; --fg: #17212b; --muted: #5a6877; --line: #d5dce4; --panel: #ffffff; --accent: #0b5aa8;
-  --s-bg: #ffffff; --s-fg: #17212b; --s-blue: #0b5aa8; --s-navy: #0d2a47; --s-orange: #ffb300; --s-line: #d3dbe4; --s-soft: #eef4fb; --s-muted: #566472;
+  --s-bg: #ffffff; --s-fg: #17212b; --s-blue: #0058a8; --s-navy: #0d2a47; --s-orange: #fcb000; --s-line: #d3dbe4; --s-soft: #eef4fb; --s-muted: #566472;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f151c; --fg: #e8edf2; --muted: #98a6b4; --line: #26323f; --panel: #17202a; --accent: #6fb0ee; color-scheme: dark } }
@@ -311,6 +311,28 @@ h2.t.sub2 { margin: 64px 0 28px }
 .people .soc:hover { background: var(--s-blue); color: #fff }
 .foot2 .soc { background: rgba(255,255,255,.12); color: #fff; text-decoration: none }
 .foot2 .soc:hover { background: var(--s-orange); color: var(--s-navy); text-decoration: none }
+.foot2 { background: var(--s-soft); color: var(--s-navy); border-top: 1px solid var(--s-line) }
+.foot2 a { color: var(--s-navy) }
+.foot2 .klogo-img { height: 46px }
+.foot2 .soc { background: #fff; color: var(--s-blue); box-shadow: 0 1px 4px rgba(13,42,71,.15) }
+.foot2 .soc:hover { background: var(--s-orange); color: var(--s-navy) }
+.foot2 small, .linkbtn { opacity: .85 }
+.linkbtn:focus-visible, .foot2 a:focus-visible { outline-color: var(--s-blue) }
+/* přehlednější texty služeb */
+.lead2 { font-size: 1.18rem; line-height: 1.7; margin: 0; color: var(--s-navy) }
+.callout { background: var(--s-soft); border-left: 5px solid var(--s-orange); border-radius: 12px; padding: 20px 24px }
+.callout h4 { margin: 0 0 6px; color: var(--s-blue); font-size: 1.1rem }
+.callout p { margin: 0; font-size: 1rem; line-height: 1.65 }
+mark.hl { background: #ffeeb8; color: var(--s-navy); padding: 1px 6px; border-radius: 4px; font-weight: 700 }
+.dtx.long { display: grid; grid-template-columns: 1.15fr 1fr; gap: 28px; columns: auto; align-items: start }
+.dtx.long > * { margin: 0 }
+.lcards { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px }
+.lc { border: 1px solid var(--s-line); border-top: 4px solid var(--s-blue); border-radius: 14px; padding: 18px 20px 20px; background: var(--s-bg) }
+.lc h4 { margin: 0 0 12px; font-size: 1rem; color: var(--s-blue) }
+.lc ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; font-size: 1rem; line-height: 1.5 }
+.lc li { display: flex; gap: 10px }
+.lc li::before { content: ""; flex: none; width: 11px; height: 6px; margin-top: 8px; border-left: 3px solid var(--s-orange); border-bottom: 3px solid var(--s-orange); transform: rotate(-45deg) }
+@media (max-width: 900px) { .dtx.long { grid-template-columns: 1fr } .lcards { grid-template-columns: 1fr } }
 </style>
 
 </head><body>
@@ -337,19 +359,19 @@ function svc(key, title, shortTxt, full, extra) {
 var pic = [["pracovni_odevy","Pracovní oděvy"],["pracovni_obuv","Pracovní obuv"],["pracovni_rukavice","Pracovní rukavice"],["ochrana_hlavy_dechu_sluchu","Ochrana hlavy, dechu, sluchu"],["vystrazne_odevy","Výstražné a antistatické oděvy a obuv"],["myci_prostredky","Mycí a čistící prostředky"],["papir_zbozi","Papírenské zboží"],["kartacnicke_zbozi","Kartáčnické zboží"]];
 var DETAIL = {
   siti: { t: "Šití pracovních oděvů", s: "Šijeme pánské i dámské pracovní oděvy ve standardních i nestandardních velikostech, včetně atypických kusů.",
-    body: '<p>Oděvy vyrábíme z kvalitních materiálů. Šijeme v pánských i dámských variantách, ve standardních i nestandardních velikostech. Díky šikovnosti našich zaměstnanců zvládneme ušít i atypické oděvy z různých materiálů.</p>', imgs: ["siti3","siti4","pracovni-odevy-1","pracovni-odevy-2"] },
+    body: '<p class="lead2">Oděvy vyrábíme z kvalitních materiálů. Šijeme v pánských i dámských variantách, ve standardních i nestandardních velikostech. Díky šikovnosti našich zaměstnanců zvládneme ušít i atypické oděvy z různých materiálů.</p>', imgs: ["siti3","siti4","pracovni-odevy-1","pracovni-odevy-2"] },
   reklamni: { t: "Reklamní textil", s: "Dodáme reklamní textil (trička, mikiny, čelenky, ručníky…) a vyšijeme na něj vaše logo nebo značku.",
-    body: '<p>Nabízíme zákazníkům dodání reklamního textilu (trička, mikiny, čelenky, ručníky…), na které vyšijeme vaše logo nebo značku. Tímto způsobem spolupracujeme i s reklamními agenturami, kterým pomáháme plnit požadavky jejich zákazníků.</p>', imgs: ["reklamni-textil-1","reklamni-textil-2","reklamni-textil-3","vysivani4"] },
+    body: '<p class="lead2">Nabízíme zákazníkům dodání reklamního textilu (trička, mikiny, čelenky, ručníky…), na které vyšijeme vaše logo nebo značku. Tímto způsobem spolupracujeme i s reklamními agenturami, kterým pomáháme plnit požadavky jejich zákazníků.</p>', imgs: ["reklamni-textil-1","reklamni-textil-2","reklamni-textil-3","vysivani4"] },
   vysivani: { t: "Vyšívání", s: "Loga a nášivky na průmyslových vyšívacích strojích TAJIMA, včetně 3D vyšívání. Vyšijeme i na vámi dodané oděvy.",
-    body: '<p>Našim zákazníkům nabízíme zhotovení loga formou výšivky nebo nášivky. Vytváříme je na kvalitních průmyslových japonských vyšívacích strojích TAJIMA – šestihlavém a jednohlavém TMEZ stroji s řízeným napětím nití. Připravíme pro vás firemní a reklamní výšivky a nášivky – včetně 3D vyšívání. Pomůžeme vám také vybrat vhodné oděvy pro výšivku, můžeme logo vyšít i na vámi dodané oděvy.</p>' +
-      '<p>Jak výšivka vznikne? Z dodaných podkladů vyrobíme vyšívací program, vytvoříme vzorek výšivky a zašleme vám jej k odsouhlasení. Cena výšivky závisí na složitosti vzoru, počtu stehů, barevnosti, materiálu a počtu požadovaných kusů. Při větších zakázkách <b>nabízíme množstevní slevu</b> a program zdarma. Doobjednávky (např. při přijetí nového zaměstnance) jsou bez navýšení ceny.</p>' +
-      '<p class="lbl">Výhody a přednosti výšivky:</p><ul><li><b>vysoká estetická úroveň</b></li><li><b>trvanlivost a odolnost</b> – výšivka zůstane kvalitní a neopotřebovaná po celou dobu životnosti oděvu</li><li>vyšité logo působí <b>profesionálně</b></li></ul>' +
-      '<p class="lbl">Pro zpracování nabídky výšivky potřebujeme:</p><ul><li>obrázek v grafické podobě (v křivkách) nebo v pdf</li><li>podkladový materiál (na co se bude vyšívat – např. mikina, tričko, bunda…)</li><li>rozměr výšivky, množství a barevnost (počet barev)</li></ul>' +
-      '<p class="lbl">Použití výšivek nebo nášivek:</p><ul><li>firemní logo na pracovních oděvech</li><li>reklamní textil (trička, polokošile, mikiny, ručníky, čepice…)</li><li>zhotovení výšivky nebo nášivky na vámi dodaný textil</li><li>logo nebo reklamní výšivky na vaše výrobky (ručníky, tašky, župany, technické výrobky…)</li></ul>', imgs: ["vysivani1","vysivani2","vysivani3","vysivani4"], long: true },
+    body: '<p class="lead2">Našim zákazníkům nabízíme zhotovení loga formou výšivky nebo nášivky. Vytváříme je na kvalitních průmyslových japonských vyšívacích strojích TAJIMA – šestihlavém a jednohlavém TMEZ stroji s řízeným napětím nití. Připravíme pro vás firemní a reklamní výšivky a nášivky – včetně 3D vyšívání. Pomůžeme vám také vybrat vhodné oděvy pro výšivku, můžeme logo vyšít i na vámi dodané oděvy.</p>' +
+      '<div class="callout"><h4>Jak výšivka vznikne?</h4><p>Z dodaných podkladů vyrobíme vyšívací program, vytvoříme vzorek výšivky a zašleme vám jej k odsouhlasení. Cena výšivky závisí na složitosti vzoru, počtu stehů, barevnosti, materiálu a počtu požadovaných kusů. Při větších zakázkách <mark class="hl">nabízíme množstevní slevu</mark> a program zdarma. Doobjednávky (např. při přijetí nového zaměstnance) jsou bez navýšení ceny.</p></div>' +
+      '<div class="lcards"><div class="lc"><h4>Výhody a přednosti výšivky:</h4><ul><li><b>vysoká estetická úroveň</b></li><li><span><b>trvanlivost a odolnost</b> – výšivka zůstane kvalitní a neopotřebovaná po celou dobu životnosti oděvu</span></li><li><span>vyšité logo působí <b>profesionálně</b></span></li></ul></div>' +
+      '<div class="lc"><h4>Pro zpracování nabídky výšivky potřebujeme:</h4><ul><li>obrázek v grafické podobě (v křivkách) nebo v pdf</li><li>podkladový materiál (na co se bude vyšívat – např. mikina, tričko, bunda…)</li><li>rozměr výšivky, množství a barevnost (počet barev)</li></ul></div>' +
+      '<div class="lc"><h4>Použití výšivek nebo nášivek:</h4><ul><li>firemní logo na pracovních oděvech</li><li>reklamní textil (trička, polokošile, mikiny, ručníky, čepice…)</li><li>zhotovení výšivky nebo nášivky na vámi dodaný textil</li><li>logo nebo reklamní výšivky na vaše výrobky (ručníky, tašky, župany, technické výrobky…)</li></ul></div></div>', imgs: ["vysivani1","vysivani2","vysivani3","vysivani4"], long: true },
   kompl: { t: "Kompletační práce", s: "Skládání součástek, návodů na použití a balení vašich výrobků. V oboru máme více než 20 let zkušeností.",
-    body: '<p>Potřebujete zkompletovat součástky, které přikládáte k vašim výrobkům? Chcete složit návody na použití nebo zabalit vaše výrobky? Máme v tomto oboru více než 20 let zkušeností. Přesnost, pečlivost a spolehlivost je to, co můžeme nabídnout.</p>', imgs: ["kompletacni1","kompletacni2","kompletacni3","kompletacni4"] },
+    body: '<p class="lead2">Potřebujete zkompletovat součástky, které přikládáte k vašim výrobkům? Chcete složit návody na použití nebo zabalit vaše výrobky? Máme v tomto oboru více než 20 let zkušeností. Přesnost, pečlivost a spolehlivost je to, co můžeme nabídnout.</p>', imgs: ["kompletacni1","kompletacni2","kompletacni3","kompletacni4"] },
   ochr: { t: "Ochranné pomůcky", s: "Prodáváme ochranné pomůcky, mycí a čisticí prostředky. Dodání je možné v režimu náhradního plnění.",
-    body: '<p>Prodáváme veškeré ochranné pomůcky, mycí a čisticí prostředky. Sortiment OOPP je velmi široký a můžete se na něj podívat na e-shopu naší spolupracující firmy koutnik.com. Uvedený sortiment zboží vám můžeme dodat v režimu náhradního plnění.</p>', imgs: null }
+    body: '<p class="lead2">Prodáváme veškeré ochranné pomůcky, mycí a čisticí prostředky. Sortiment OOPP je velmi široký a můžete se na něj podívat na e-shopu naší spolupracující firmy koutnik.com. Uvedený sortiment zboží vám můžeme dodat v režimu náhradního plnění.</p>', imgs: null }
 };
 STATE.sel = { g1: "siti", g2: null };
 function card(g, key) { var d = DETAIL[key], act = STATE.sel[g] === key;
@@ -399,7 +421,7 @@ function render() {
     '<h2 class="t sub2">Provozovny</h2><div class="pcards">' +
     '<div class="pcard"><div class="pmap">' + frame(MAPS.kolin) + '</div><div class="ptx"><b>Kolín</b><span class="ad">Na pobřeží 113,<br>280 00 Kolín</span><span>Telefon: +420 321 721 013<br>Vedoucí: Lenka Pařízková<br>Telefon: +420 734 318 869<br>E-mail: koftex.kolin@koftex.cz</span></div></div>' +
     '<div class="pcard"><div class="pmap">' + frame(MAPS.hk) + '</div><div class="ptx"><b>Hradec Králové</b><span class="ad">Pražská třída 799/15,<br>500 04 Hradec Králové-Kukleny</span><span>Telefon: +420 495 537 090<br>E-mail: koftex@koftex.cz<br>Telefon: +420 777 626 191</span></div></div></div></section>';
-  var foot = '<div class="foot2"><img class="klogo-img" alt="Koftex s.r.o." src="'+LOGO_DARK+'"><div class="row"><span class="socs">' + soc() + '</span><a href="tel:+420777626191">+420 777 626 191</a><a href="mailto:koftex@koftex.cz">koftex@koftex.cz</a></div><span>Web na míru - Vít Vohralík</span><small>© Všechna práva vyhrazena</small><div class="row"><a class="sm" href="#zasady-cookies" id="open-policy">Zásady cookies</a><button class="linkbtn" id="open-consent" type="button">Nastavení cookies</button></div></div>';
+  var foot = '<div class="foot2"><img class="klogo-img" alt="Koftex s.r.o." src="'+LOGO+'"><div class="row"><span class="socs">' + soc() + '</span><a href="tel:+420777626191">+420 777 626 191</a><a href="mailto:koftex@koftex.cz">koftex@koftex.cz</a></div><span>Web na míru - Vít Vohralík</span><small>© Všechna práva vyhrazena</small><div class="row"><a class="sm" href="#zasady-cookies" id="open-policy">Zásady cookies</a><button class="linkbtn" id="open-consent" type="button">Nastavení cookies</button></div></div>';
   var st = '<div class="stitch" aria-hidden="true"></div>';
   document.getElementById("stage").innerHTML = '<div class="site ' + STATE.d + '">' + nav + hero + strip + cards + about + faq + st + legal + st + contact + foot + '</div>';
 }
