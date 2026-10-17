@@ -232,16 +232,16 @@ label.field.file { display: block; cursor: pointer }
 #policy ul { margin: 0 0 12px; padding-left: 22px }
 
 /* ---- v3 ---- */
-:root { --pad: max(24px, calc((100% - 1240px) / 2)) }
+:root { --pad: max(24px, calc((100% - 1320px) / 2)) }
 .nav, .hero, .sec, .foot2 { padding-inline: var(--pad) }
 .sec { padding-block: 64px }
 h2.t { font-size: 2.1rem; margin: 0 0 28px; line-height: 1.15; letter-spacing: -.01em }
 h2.t.sub2 { margin: 64px 0 28px }
-.hero { min-height: calc(100vh - 62px); grid-template-columns: minmax(0, 1fr) minmax(380px, 640px); gap: 56px; padding-block: 40px; align-items: center }
-.hero h2 { font-size: clamp(2rem, 2.6vw, 2.6rem); line-height: 1.15; letter-spacing: -.015em; max-width: none }
+.hero { min-height: min(calc(100vh - 62px), 800px); grid-template-columns: minmax(0, 1fr) minmax(380px, 720px); gap: 56px; padding-block: 36px; align-items: center }
+.hero h2 { font-size: clamp(2rem, 2.9vw, 2.9rem); line-height: 1.15; letter-spacing: -.015em; max-width: none }
 .lead { font-size: 1.2rem; max-width: 40ch }
 .checks { font-size: 1.05rem; gap: 8px }
-.photo.vid { aspect-ratio: 1 / 1; width: 100%; border-radius: 20px }
+.photo.vid { aspect-ratio: 1 / 1; width: min(100%, 720px, calc(100vh - 140px)); justify-self: end; border-radius: 20px }
 .strip { padding-block: 56px }
 .navbtn { min-height: 38px !important; padding: 0 18px !important; font-size: .9rem !important; color: var(--s-navy) !important }
 .stitch { height: 3px; margin-inline: var(--pad); background: repeating-linear-gradient(90deg, #b6c2cf 0 14px, transparent 14px 26px); border-radius: 2px }
@@ -257,14 +257,16 @@ h2.t.sub2 { margin: 64px 0 28px }
 .tog2::after { content: ""; width: 8px; height: 8px; border-right: 3px solid var(--s-orange); border-bottom: 3px solid var(--s-orange); transform: translateY(-2px) rotate(45deg); transition: transform .15s }
 .scard.act .tog2::after { transform: translateY(2px) rotate(-135deg) }
 .panel:empty { display: none }
-.dtl { margin-top: 20px; border: 2px solid var(--s-blue); border-radius: 18px; padding: 32px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 40px; align-items: start; background: var(--s-bg) }
-.dtx { max-width: 64ch; display: flex; flex-direction: column; gap: 14px; font-size: 1.05rem; line-height: 1.7 }
+.dtl { margin-top: 20px; border: 2px solid var(--s-blue); border-radius: 18px; padding: 32px; display: flex; flex-direction: column; gap: 28px; background: var(--s-bg) }
+.dtx { max-width: 82ch; display: flex; flex-direction: column; gap: 14px; font-size: 1.05rem; line-height: 1.7 }
+.dtx.long { max-width: none; display: block; columns: 2 400px; column-gap: 56px }
+.dtx.long > * { margin: 0 0 14px; break-inside: avoid }
+.dtx.long .lbl { break-after: avoid }
 .dtx p { margin: 0 }
 .dtx .lbl { font-weight: 700; margin: 6px 0 0; color: var(--s-navy) }
 .dtx ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 5px }
-.dmed { position: sticky; top: 84px }
-.dmed .gal { grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 }
-.dmed .pics { grid-template-columns: repeat(4, 1fr); margin: 0 }
+.dmed .gal { grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 0 }
+.dmed .pics { grid-template-columns: repeat(8, 1fr); margin: 0 }
 .about { background: var(--s-soft); display: flex; flex-direction: column; gap: 36px }
 .abt { display: grid; grid-template-columns: 1.2fr 1fr; gap: 56px; align-items: center }
 .abt p { margin: 0; font-size: 1.1rem; line-height: 1.7; max-width: 60ch }
@@ -284,12 +286,13 @@ h2.t.sub2 { margin: 64px 0 28px }
 .pcard .ptx { padding: 28px 32px; font-size: 1rem; line-height: 1.65; display: flex; flex-direction: column; gap: 6px }
 .pcard .ptx b { font-size: 1.4rem }
 .pcard .ptx .ad { font-weight: 600; font-size: 1.1rem }
-@media (max-width: 900px) { .dtl, .abt { grid-template-columns: 1fr } .dtl { padding: 22px } .scards, .scards.two { grid-template-columns: 1fr } .pcard { grid-template-columns: 1fr } .sec.contacts .contact { grid-template-columns: 1fr } }
+@media (max-width: 900px) { .abt { grid-template-columns: 1fr } .dtl { padding: 22px } .dmed .gal { grid-template-columns: 1fr 1fr } .dmed .pics { grid-template-columns: repeat(4, 1fr) } .dtx.long { columns: 1 } .scards, .scards.two { grid-template-columns: 1fr } .pcard { grid-template-columns: 1fr } .sec.contacts .contact { grid-template-columns: 1fr } }
 @media (max-width: 760px) {
   .sec { padding-block: 44px }
   h2.t { font-size: 1.7rem; margin-bottom: 20px }
   h2.t.sub2 { margin-top: 44px }
   .hero { min-height: 0; gap: 28px; padding-block: 28px }
+  .photo.vid { width: 100%; justify-self: stretch }
   .hero h2 { font-size: 2rem }
   .lead { font-size: 1.05rem }
   .facts.big { grid-template-columns: 1fr 1fr 1fr; gap: 10px }
@@ -330,7 +333,7 @@ var DETAIL = {
       '<p>Jak výšivka vznikne? Z dodaných podkladů vyrobíme vyšívací program, vytvoříme vzorek výšivky a zašleme vám jej k odsouhlasení. Cena výšivky závisí na složitosti vzoru, počtu stehů, barevnosti, materiálu a počtu požadovaných kusů. Při větších zakázkách <b>nabízíme množstevní slevu</b> a program zdarma. Doobjednávky (např. při přijetí nového zaměstnance) jsou bez navýšení ceny.</p>' +
       '<p class="lbl">Výhody a přednosti výšivky:</p><ul><li><b>vysoká estetická úroveň</b></li><li><b>trvanlivost a odolnost</b> – výšivka zůstane kvalitní a neopotřebovaná po celou dobu životnosti oděvu</li><li>vyšité logo působí <b>profesionálně</b></li></ul>' +
       '<p class="lbl">Pro zpracování nabídky výšivky potřebujeme:</p><ul><li>obrázek v grafické podobě (v křivkách) nebo v pdf</li><li>podkladový materiál (na co se bude vyšívat – např. mikina, tričko, bunda…)</li><li>rozměr výšivky, množství a barevnost (počet barev)</li></ul>' +
-      '<p class="lbl">Použití výšivek nebo nášivek:</p><ul><li>firemní logo na pracovních oděvech</li><li>reklamní textil (trička, polokošile, mikiny, ručníky, čepice…)</li><li>zhotovení výšivky nebo nášivky na vámi dodaný textil</li><li>logo nebo reklamní výšivky na vaše výrobky (ručníky, tašky, župany, technické výrobky…)</li></ul>', imgs: ["vysivani1","vysivani2","vysivani3","vysivani4"] },
+      '<p class="lbl">Použití výšivek nebo nášivek:</p><ul><li>firemní logo na pracovních oděvech</li><li>reklamní textil (trička, polokošile, mikiny, ručníky, čepice…)</li><li>zhotovení výšivky nebo nášivky na vámi dodaný textil</li><li>logo nebo reklamní výšivky na vaše výrobky (ručníky, tašky, župany, technické výrobky…)</li></ul>', imgs: ["vysivani1","vysivani2","vysivani3","vysivani4"], long: true },
   kompl: { t: "Kompletační práce", s: "Skládání součástek, návodů na použití a balení vašich výrobků. V oboru máme více než 20 let zkušeností.",
     body: '<p>Potřebujete zkompletovat součástky, které přikládáte k vašim výrobkům? Chcete složit návody na použití nebo zabalit vaše výrobky? Máme v tomto oboru více než 20 let zkušeností. Přesnost, pečlivost a spolehlivost je to, co můžeme nabídnout.</p>', imgs: ["kompletacni1","kompletacni2","kompletacni3","kompletacni4"] },
   ochr: { t: "Ochranné pomůcky", s: "Prodáváme ochranné pomůcky, mycí a čisticí prostředky. Dodání je možné v režimu náhradního plnění.",
@@ -341,13 +344,13 @@ function card(g, key) { var d = DETAIL[key], act = STATE.sel[g] === key;
   return '<button class="scard' + (act ? ' act' : '') + '" type="button" data-grp="' + g + '" data-key="' + key + '" aria-expanded="' + act + '"><h3>' + d.t + '</h3><p>' + d.s + '</p><span class="tog2">' + (act ? 'Méně' : 'Více a fotky') + '</span></button>'; }
 function panel(g) { var k = STATE.sel[g]; if (!k) return ''; var d = DETAIL[k];
   var med = d.imgs ? gal(d.imgs) : '<div class="pics">' + pic.map(function (p) { return '<div><img alt="" src="' + G["p_" + p[0]] + '">' + p[1] + '</div>'; }).join("") + '</div>';
-  return '<div class="dtl"><div class="dtx">' + d.body + '</div><div class="dmed">' + med + '</div></div>'; }
+  return '<div class="dtl"><div class="dtx' + (d.long ? ' long' : '') + '">' + d.body + '</div><div class="dmed">' + med + '</div></div>'; }
 function frame(src) { return '<iframe src="' + src + '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Mapa"></iframe>'; }
 var MAPS = { sidlo: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2553.49757775818!2d15.813690999999995!3d50.20792159999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c2b3b8bc31d7d%3A0x456c730563a44a4b!2sKoftex!5e0!3m2!1scs!2scz!4v1732570533695!5m2!1scs!2scz", kolin: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2563.1117470270588!2d15.202746676759855!3d50.02800187151468!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c1523ba1ea175%3A0xfbd61babaeb446e0!2sKoftex%20S.r.o.!5e0!3m2!1scs!2scz!4v1732566449994!5m2!1scs!2scz", hk: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2553.479735011498!2d15.8001285121531!3d50.20825507142821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c2b167cb96821%3A0x58a25724e17af8ed!2sPracovn%C3%AD%20od%C4%9Bvy%20Koutn%C3%ADk%20a%20spol.%20s.r.o.!5e0!3m2!1scs!2scz!4v1732564521500!5m2!1scs!2scz" };
 function render() {
   var m = STATE.d === "mobile";
   var nav = '<header class="nav" id="top"><a href="#top" aria-label="Koftex, nahoru"><img class="klogo-img" alt="Koftex s.r.o." src="' + LOGO + '"></a><button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"></button>' +
-    '<ul id="menu"><li><a href="#sluzby">Služby</a></li><li><a href="#o-spolecnosti">O společnosti</a></li><li><a href="#faq">FAQ</a></li><li><a href="#kontakty">Kontakty</a></li><li class="tel"><a href="tel:+420777626191">' + PH + '777 626 191</a></li><li><a class="btn navbtn" href="#poptavka">Poptávka</a></li></ul></header>';
+    '<ul id="menu"><li><a href="#sluzby">Služby</a></li><li><a href="#o-spolecnosti">O společnosti</a></li><li><a href="#faq">FAQ</a></li><li><a href="#kontakty">Kontakty</a></li><li class="tel"><a href="tel:+420777626191">' + PH + '777 626 191</a></li><li><a class="btn navbtn" href="#poptavka">Nezávazná poptávka</a></li></ul></header>';
   var hero = '<section class="hero"><div><h2>Výroba pracovních oděvů na zakázku pro firmy</h2>' +
     '<p class="lead">Šijeme pánské i dámské pracovní oděvy, i v atypických velikostech, a vyšíváme loga na průmyslových strojích TAJIMA.</p>' +
     '<ul class="checks"><li>Firma od roku 2001, dílna v Kolíně</li><li>Šití, vyšívání i kompletační práce</li><li>Na poptávku odpovíme do 1 pracovního dne</li></ul>' +
