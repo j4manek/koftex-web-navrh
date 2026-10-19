@@ -1,11 +1,11 @@
 /* Kalkulačka ceny oděvů s výšivkou. Ceny se berou z window.KALK_CENY (ceny.js). */
 (function () {
   var C = window.KALK_CENY, V = C.vysivani;
-  var S = { cat: "tricko", prod: C.produkty.tricko[0].id, colors: ["cerna"], qty: {}, deco: [{ pos: "prso-l", size: "m" }] };
+  var S = { cat: "tricko", prod: null, open: 1, colors: ["cerna"], qty: {}, deco: [{ pos: "prso-l", size: "m" }] };
 
   function $(id) { return document.getElementById(id); }
   function money(n) { return new Intl.NumberFormat("cs-CZ").format(Math.round(n)) + " Kč"; }
-  function product() { return C.produkty[S.cat].find(function (p) { return p.id === S.prod; }); }
+  function product() { return C.produkty[S.cat].find(function (p) { return p.id === S.prod; }) || null; }
   function color(id) { return C.barvy.find(function (c) { return c.id === id; }); }
   function key(c, s) { return c + "|" + s; }
   function qtyOf(c, s) { return S.qty[key(c, s)] || 0; }
@@ -13,7 +13,7 @@
 
   function calc() {
     var p = product(), total = 0, goodsFull = 0;
-    S.colors.forEach(function (c) {
+    if (p) S.colors.forEach(function (c) {
       C.velikosti.forEach(function (s) {
         var q = qtyOf(c, s);
         total += q;
@@ -45,7 +45,7 @@
 
   function productsHtml() {
     return C.produkty[S.cat].map(function (p) {
-      return '<button type="button" class="kc-prod' + (p.id === S.prod ? " on" : "") + '" data-kc-prod="' + p.id + '" aria-pressed="' + (p.id === S.prod) + '"><b>' + p.n + '</b><span>' + p.popis + '</span><em>' + money(p.cena) + ' / ks</em></button>';
+      return '<button type="button" class="kc-prod' + (p.id === S.prod ? " on" : "") + '" data-kc-prod="' + p.id + '" aria-pressed="' + (p.id === S.prod) + '"><span class="kc-pt"><b>' + p.n + '</b><span>' + p.popis + '</span></span><em>' + money(p.cena) + '</em></button>';
     }).join("");
   }
 
@@ -55,14 +55,14 @@
       return '<button type="button" class="kc-sw' + (on ? " on" : "") + '" data-kc-color="' + c.id + '" aria-pressed="' + on + '" aria-label="' + c.n + '" title="' + c.n + '" style="--c:' + c.hex + '"></button>';
     }).join("");
     var blocks = S.colors.map(function (id) {
-      var c = color(id), p = product();
+      var c = color(id), p = product() || { priplatek: {} };
       var grid = C.velikosti.map(function (s) {
         var plus = p.priplatek[s];
         return '<label class="kc-sz"><span>' + s + (plus ? ' <small>+' + plus + '</small>' : "") + '</span><input type="number" min="0" max="9999" inputmode="numeric" placeholder="0" data-kc-q="' + key(id, s) + '" value="' + (qtyOf(id, s) || "") + '"></label>';
       }).join("");
       return '<div class="kc-col"><div class="kc-colh"><i style="--c:' + c.hex + '"></i><b>' + c.n + '</b><span id="kc-n-' + id + '"></span><button type="button" class="kc-x" data-kc-color="' + id + '" aria-label="Odebrat barvu ' + c.n + '">×</button></div><div class="kc-grid">' + grid + '</div></div>';
     }).join("");
-    return '<div class="kc-sws" role="group" aria-label="Barvy">' + sw + '</div>' + (blocks || '<p class="kc-hint">Vyberte aspoň jednu barvu.</p>');
+    return '<div class="kc-sws" role="group" aria-label="Barvy">' + sw + '</div>' + (blocks || '<p class="kc-hint">Vyberte aspoň jednu barvu.</p>') + '<button type="button" class="btn kc-next-btn" data-kc-open="3">Pokračovat na vyšívání →</button>';
   }
 
   function decoHtml() {
@@ -76,24 +76,43 @@
   }
 
   function sumHtml(r) {
-    if (!r.total) return '<h3>Orientační cena</h3><p class="kc-hint">Zadejte počty kusů v tabulce velikostí a cena se spočítá hned.</p>';
-    var h = '<h3>Orientační cena</h3><dl>' +
+    var h = '<h3>Orientační cena</h3>';
+    if (!r.p) return h + '<p class="kc-hint">Vyberte textil a cena se začne počítat.</p>';
+    if (!r.total) return h + '<p class="kc-hint">' + r.p.n + ' – zadejte počty kusů v tabulce velikostí.</p>';
+    h += '<div class="kc-total"><span>Celkem bez DPH</span><b>' + money(r.sum) + '</b></div><div class="kc-vat">' + money(r.vat) + ' vč. DPH · ' + money(r.sum / r.total) + ' bez DPH za 1 ks</div><dl>' +
       '<dt>' + r.p.n + ' · ' + r.total + ' ks' + (r.pct ? '<small>množstevní sleva ' + r.pct + ' %</small>' : "") + '</dt><dd>' + money(r.goods) + '</dd>';
     if (r.rows.length) {
       h += '<dt>Vyšívání · ' + r.total + ' ks' + r.rows.map(function (d) { return '<small>' + d.pos + ' – ' + money(d.perPiece) + ' / ks</small>'; }).join("") + '</dt><dd>' + money(r.deco) + '</dd>' +
         '<dt>Vyšívací program (jednorázově)<small>orientačně, platí se jednou – u stejné výšivky už nikdy znovu</small></dt><dd>' + money(r.program) + '</dd>';
     }
-    h += '</dl><div class="kc-total"><span>Celkem bez DPH</span><b>' + money(r.sum) + '</b></div><div class="kc-vat">' + money(r.vat) + ' vč. DPH · ' + money(r.sum / r.total) + ' bez DPH za 1 ks</div>';
+    h += '</dl>';
     if (r.next) h += '<p class="kc-next">Přidejte ještě <b>' + (r.next[0] - r.total) + ' ks</b> a sleva na textil vzroste na ' + r.next[1] + ' %.</p>';
     return h;
   }
 
+  function stepSummary(n, r) {
+    if (n === 1) return r.p ? r.p.n + " · " + money(r.p.cena) : "Vyberte produkt";
+    if (n === 2) return !r.p ? "" : r.total ? S.colors.map(function (c) { return color(c).n; }).join(", ") + " · " + r.total + " ks" : "Zadejte počty kusů";
+    return !r.p ? "" : r.rows.length ? r.rows.map(function (d) { return d.pos; }).join(", ") : "Bez výšivky";
+  }
+
+  function renderSteps(r) {
+    [1, 2, 3].forEach(function (n) {
+      var locked = n > 1 && !r.p, open = S.open === n && !locked, st = $("kc-s" + n);
+      st.classList.toggle("open", open); st.classList.toggle("locked", locked);
+      st.querySelector(".kc-hd").setAttribute("aria-expanded", open);
+      st.querySelector(".kc-hd").disabled = locked;
+      st.querySelector(".kc-body").hidden = !open;
+      st.querySelector(".kc-hs").textContent = open ? "" : stepSummary(n, r);
+    });
+  }
+
   function renderSummary() {
-    var r = calc();
+    var r = calc(); renderSteps(r);
     $("kc-sum").innerHTML = sumHtml(r) +
       '<div class="kc-acts"><button type="button" class="btn" data-kc-send' + (r.total ? "" : " disabled") + '>Poslat poptávku s kalkulací</button><button type="button" class="btn ghost" data-kc-copy' + (r.total ? "" : " disabled") + '>Zkopírovat shrnutí</button></div>' +
       '<p class="kc-note">Cena je orientační. Konečnou nabídku potvrdíme po posouzení loga a materiálu, cena výšivky se může po zpracování ještě snížit.</p>';
-    $("kc-bar").innerHTML = r.total ? '<span>Celkem bez DPH</span><b>' + money(r.sum) + '</b><a href="#kc-sum">Detail</a>' : '<span>Zadejte počty kusů</span>';
+    $("kc-bar").innerHTML = r.total ? '<span>Orientačně bez DPH</span><b>' + money(r.sum) + '</b><a href="#kc-sum">Detail</a>' : '<span>Orientační cena se počítá hned</span>';
     S.colors.forEach(function (c) {
       var n = C.velikosti.reduce(function (a, s) { return a + qtyOf(c, s); }, 0), el = $("kc-n-" + c);
       if (el) el.textContent = n ? n + " ks" : "";
@@ -109,11 +128,12 @@
   }
 
   function onClick(e) {
-    var t = e.target.closest("[data-kc-cat],[data-kc-prod],[data-kc-color],[data-kc-add],[data-kc-del],[data-kc-send],[data-kc-copy]");
+    var t = e.target.closest("[data-kc-cat],[data-kc-prod],[data-kc-open],[data-kc-color],[data-kc-add],[data-kc-del],[data-kc-send],[data-kc-copy]");
     if (!t || !t.closest("#kalkulacka")) return;
     var d = t.dataset;
-    if (d.kcCat) { S.cat = d.kcCat; S.prod = C.produkty[S.cat][0].id; renderAll(); }
-    else if (d.kcProd) { S.prod = d.kcProd; renderAll(); }
+    if (d.kcCat) { if (S.cat !== d.kcCat) { S.cat = d.kcCat; S.prod = null; S.open = 1; } renderAll(); }
+    else if (d.kcProd) { S.prod = d.kcProd; S.open = 2; renderAll(); }
+    else if (d.kcOpen) { S.open = +d.kcOpen; renderAll(); }
     else if (d.kcColor) { var i = S.colors.indexOf(d.kcColor); if (i > -1) S.colors.splice(i, 1); else S.colors.push(d.kcColor); renderAll(); }
     else if ("kcAdd" in d) { S.deco.push({ pos: "zada", size: "l" }); $("kc-deco").innerHTML = decoHtml(); renderSummary(); }
     else if (d.kcDel) { S.deco.splice(+d.kcDel, 1); $("kc-deco").innerHTML = decoHtml(); renderSummary(); }
@@ -142,13 +162,16 @@
 
   window.KALK = {
     html: function () {
+      function step(n, title, body) {
+        return '<div class="kc-step" id="kc-s' + n + '"><button type="button" class="kc-hd" data-kc-open="' + n + '"><i>' + n + '</i><b>' + title + '</b><span class="kc-hs"></span><u aria-hidden="true"></u></button><div class="kc-body">' + body + '</div></div>';
+      }
       return '<section class="sec kcalc" id="kalkulacka"><h2 class="t">Kalkulačka ceny</h2>' +
-        '<p class="kc-lead">Spočítejte si orientační cenu oděvů s vyšitým logem. Bez čekání na nabídku, cena se přepočítává při každé změně.</p>' +
+        '<p class="kc-lead">Spočítejte si orientační cenu oděvů s vyšitým logem. Cena se přepočítává hned při každé změně.</p>' +
         '<div class="kc-layout"><div class="kc-steps">' +
-        '<div class="kc-step"><h3><i>1</i>Textil</h3><div class="kc-cats" id="kc-cats"><button type="button" data-kc-cat="tricko">Trička</button><button type="button" data-kc-cat="mikina">Mikiny</button></div><div class="kc-prods" id="kc-prods"></div></div>' +
-        '<div class="kc-step"><h3><i>2</i>Barvy a velikosti</h3><div id="kc-colors"></div></div>' +
-        '<div class="kc-step"><h3><i>3</i>Vyšívání loga</h3><div id="kc-deco"></div></div></div>' +
-        '<aside class="kc-side"><div class="kc-sum" id="kc-sum"></div></aside></div>' +
+        step(1, "Textil", '<div class="kc-cats" id="kc-cats"><button type="button" data-kc-cat="tricko">Trička</button><button type="button" data-kc-cat="mikina">Mikiny</button></div><div class="kc-prods" id="kc-prods"></div>') +
+        step(2, "Barvy a velikosti", '<div id="kc-colors"></div>') +
+        step(3, "Vyšívání loga", '<div id="kc-deco"></div>') +
+        '</div><aside class="kc-side"><div class="kc-sum" id="kc-sum"></div></aside></div>' +
         '<div class="kc-bar" id="kc-bar"></div></section>';
     },
     mount: function () {
