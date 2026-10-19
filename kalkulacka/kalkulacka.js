@@ -165,7 +165,7 @@
       function step(n, title, body) {
         return '<div class="kc-step" id="kc-s' + n + '"><button type="button" class="kc-hd" data-kc-open="' + n + '"><i>' + n + '</i><b>' + title + '</b><span class="kc-hs"></span><u aria-hidden="true"></u></button><div class="kc-body">' + body + '</div></div>';
       }
-      return '<section class="sec kcalc" id="kalkulacka"><h2 class="t">Kalkulačka ceny</h2>' +
+      return '<section class="sec kcalc" id="kalkulacka"><h2 class="t">Kolik stojí oděvy s vaším logem?</h2>' +
         '<p class="kc-lead">Spočítejte si orientační cenu oděvů s vyšitým logem. Cena se přepočítává hned při každé změně.</p>' +
         '<div class="kc-layout"><div class="kc-steps">' +
         step(1, "Textil", '<div class="kc-cats" id="kc-cats"><button type="button" data-kc-cat="tricko">Trička</button><button type="button" data-kc-cat="mikina">Mikiny</button></div><div class="kc-prods" id="kc-prods"></div>') +
