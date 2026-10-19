@@ -345,6 +345,14 @@ mark.hl { background: #ffeeb8; color: var(--s-navy); padding: 1px 6px; border-ra
 .faq details[open] summary::after { transform: rotate(-135deg); margin-top: -2px }
 .faq summary:focus-visible { outline: 3px solid var(--s-orange); outline-offset: -3px; border-radius: 6px }
 .faq details p { margin: 0; padding: 0 22px 16px; font-size: .98rem; line-height: 1.6 }
+/* formulář: viditelné popisky, chyby, souhlas */
+.fld label { display: block; margin-bottom: 4px; font-size: .85rem; font-weight: 700; color: var(--s-navy) }
+.field[aria-invalid="true"] { border-color: #c0262d; box-shadow: 0 0 0 1px #c0262d }
+.err { margin: 0; padding: 10px 12px; border-radius: 8px; background: #fdecea; color: #8c1d18; font-weight: 600; font-size: .92rem }
+.consent { font-size: .8rem !important; color: var(--s-muted); margin: 0 }
+.vh { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden }
+label.field.file { position: relative }
+label.field.file:focus-within { outline: 2px solid var(--s-blue); outline-offset: 1px }
 /* ---- méně prázdného místa, odkaz na kalkulačku v úvodu ---- */
 .sec { padding-block: 52px }
 .strip { padding-block: 44px }
@@ -783,11 +791,13 @@ function render() {
     '<div><h3>Sociální sítě</h3><div class="socs">' + soc() + '</div></div>' +
     '<div><h3>Sídlo</h3><h4>Horova 123,<br>500 02 Hradec Králové</h4><p>Datová schránka: fcnf52x</p><div class="mapbox">' + frame(MAPS.sidlo) + '</div></div></div>' +
     '<form class="form" id="poptavka" novalidate><h3>Nezávazná poptávka</h3><p>Napište, co potřebujete ušít nebo vyšít (druh oděvů, počet kusů, termín). Stačí vyplnit telefon nebo e-mail.</p><p class="reply">Odpovíme do 1 pracovního dne.</p>' +
-    '<label class="sr" for="f-jmeno" style="position:absolute;left:-9999px">Jméno</label><input class="field" id="f-jmeno" placeholder="Jméno" autocomplete="name">' +
-    '<label class="sr" for="f-mail" style="position:absolute;left:-9999px">E-mail</label><input class="field" id="f-mail" type="email" placeholder="E-mail" autocomplete="email">' +
-    '<label class="sr" for="f-tel" style="position:absolute;left:-9999px">Telefonní číslo</label><input class="field" id="f-tel" type="tel" placeholder="Telefonní číslo" autocomplete="tel">' +
-    '<label class="sr" for="f-zprava" style="position:absolute;left:-9999px">Zpráva</label><textarea class="field tall" id="f-zprava" placeholder="Např. 50 ks montérek, pánské i dámské, termín do konce listopadu"></textarea>' +
-    '<label class="field file">Nahrát přílohu (volitelně)<input type="file" hidden></label>' +
+    '<div class="fld"><label for="f-jmeno">Jméno</label><input class="field" id="f-jmeno" name="jmeno" placeholder="Jan Novák" autocomplete="name"></div>' +
+    '<div class="fld"><label for="f-mail">E-mail</label><input class="field" id="f-mail" name="email" type="email" placeholder="jan@firma.cz" autocomplete="email"></div>' +
+    '<div class="fld"><label for="f-tel">Telefon</label><input class="field" id="f-tel" name="telefon" type="tel" inputmode="tel" placeholder="+420 777 123 456" autocomplete="tel"></div>' +
+    '<div class="fld"><label for="f-zprava">Co potřebujete</label><textarea class="field tall" id="f-zprava" name="zprava" placeholder="Např. 50 ks montérek, pánské i dámské, termín do konce listopadu"></textarea></div>' +
+    '<label class="field file"><span id="f-file-n">Nahrát přílohu (logo, podklady – volitelně)</span><input type="file" id="f-file" name="priloha" class="vh"></label>' +
+    '<p class="err" id="f-err" role="alert" hidden></p>' +
+    '<p class="consent">Údaje z formuláře použijeme jen k vyřízení vaší poptávky.</p>' +
     '<button class="btn" type="submit">Odeslat</button><p class="demo" id="demo" hidden>Toto je návrh vzhledu. Formulář zatím nic neodesílá.</p></form></div>' +
     '<h2 class="t sub2">Provozovny</h2><div class="pcards">' +
     '<div class="pcard"><div class="pmap">' + frame(MAPS.kolin) + '</div><div class="ptx"><b>Kolín</b><span class="ad">Na pobřeží 113,<br>280 00 Kolín</span><span>Telefon: +420 321 721 013<br>Vedoucí: Lenka Pařízková<br>Telefon: +420 734 318 869<br>E-mail: koftex.kolin@koftex.cz</span></div></div>' +
@@ -809,7 +819,20 @@ document.getElementById("stage").addEventListener("click", function (e) {
   if (bg) { var o = nav.classList.toggle("navopen"); bg.setAttribute("aria-expanded", String(o)); return; }
   if (e.target.closest("#menu a")) { nav.classList.remove("navopen"); document.getElementById("burger").setAttribute("aria-expanded", "false"); }
 });
-document.getElementById("stage").addEventListener("submit", function (e) { e.preventDefault(); document.getElementById("demo").hidden = false; });
+document.getElementById("stage").addEventListener("submit", function (e) {
+  e.preventDefault();
+  var f = function (id) { return document.getElementById(id); }, mail = f("f-mail").value.trim(), tel = f("f-tel").value.trim(), err = f("f-err"), bad = [];
+  ["f-mail", "f-tel"].forEach(function (id) { f(id).removeAttribute("aria-invalid"); });
+  if (!mail && !tel) { bad = ["f-tel", "f-mail"]; err.textContent = "Vyplňte prosím telefon nebo e-mail, abychom se vám mohli ozvat."; }
+  else if (mail && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) { bad = ["f-mail"]; err.textContent = "E-mail nevypadá správně, zkontrolujte ho prosím."; }
+  else if (tel && !/^\+?[0-9 ()\-]+$/.test(tel) || tel && tel.replace(/\D/g, "").length < 9) { bad = ["f-tel"]; err.textContent = "Telefon nevypadá správně, zkontrolujte ho prosím."; }
+  err.hidden = !bad.length; f("demo").hidden = !!bad.length;
+  bad.forEach(function (id) { f(id).setAttribute("aria-invalid", "true"); });
+  if (bad.length) f(bad[0]).focus();
+});
+document.getElementById("stage").addEventListener("change", function (e) {
+  if (e.target.id === "f-file") document.getElementById("f-file-n").textContent = e.target.files.length ? e.target.files[0].name : "Nahrát přílohu (logo, podklady – volitelně)";
+});
 </script>
 
 
