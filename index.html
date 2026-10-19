@@ -335,6 +335,16 @@ mark.hl { background: #ffeeb8; color: var(--s-navy); padding: 1px 6px; border-ra
 .lc li::before { content: ""; flex: none; width: 11px; height: 6px; margin-top: 8px; border-left: 3px solid var(--s-orange); border-bottom: 3px solid var(--s-orange); transform: rotate(-45deg) }
 @media (max-width: 900px) { .dtx.long { grid-template-columns: 1fr } .lcards { grid-template-columns: 1fr } }
 
+/* FAQ jako rozklikávací otázky */
+.faq details { border-top: 2px dashed var(--s-line) }
+.faq details:last-child { border-bottom: 2px dashed var(--s-line) }
+.faq summary { list-style: none; cursor: pointer; position: relative; display: flex; align-items: center; min-height: 52px; padding: 10px 44px 10px 22px; font-weight: 700; font-size: 1.02rem }
+.faq summary::-webkit-details-marker { display: none }
+.faq summary::before { content: ""; position: absolute; left: 4px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--s-orange) }
+.faq summary::after { content: ""; position: absolute; right: 14px; top: 50%; width: 9px; height: 9px; margin-top: -7px; border-right: 2px solid var(--s-muted); border-bottom: 2px solid var(--s-muted); transform: rotate(45deg); transition: transform .15s }
+.faq details[open] summary::after { transform: rotate(-135deg); margin-top: -2px }
+.faq summary:focus-visible { outline: 3px solid var(--s-orange); outline-offset: -3px; border-radius: 6px }
+.faq details p { margin: 0; padding: 0 22px 16px; font-size: .98rem; line-height: 1.6 }
 /* ---- méně prázdného místa, odkaz na kalkulačku v úvodu ---- */
 .sec { padding-block: 52px }
 .strip { padding-block: 44px }
@@ -762,7 +772,7 @@ function render() {
     '<div class="facts big"><div><b>od 2001</b>na trhu</div><div><b>Kolín</b>vlastní dílna</div><div><b>6 hlav</b>vyšívací stroj TAJIMA</div></div></div>' +
     '<div class="kcard"><a class="klogo" href="http://koutnik.com" target="_blank" rel="noopener" aria-label="Koutník &amp; spol., e-shop koutnik.com"><img alt="Koutník &amp; spol. – pracovní oděvy" src="' + KLOGO + '"></a><p>Prodáváme veškeré ochranné pomůcky, mycí a čisticí prostředky. Sortiment OOPP je velmi široký a můžete se na něj podívat na e-shopu naší spolupracující firmy koutnik.com. Uvedený sortiment zboží vám můžeme dodat v režimu náhradního plnění.</p><a class="btn" href="http://koutnik.com" target="_blank" rel="noopener">Navštívit e-shop</a></div></section>';
   var faqs = [["Umíte ušít i nestandartní velikosti? Jsem vyšší/silnější postavy a těžko na sebe sháním pracovní oděvy.","Ano, můžeme ušít i atypické velikosti."],["Máte oděvy vybavené nestandartními kapsami – např. na nůž?","Zákazníkům běžně zhotovujeme různé doplňky – kapsy, barevné značení, poutka…"],["Potřebujeme z hygienických důvodů mít pracovní oděv bez kapes, lze toto zajistit?","Tento požadavek je v potravinářském průmyslu běžný, nemáme problém oděv bez kapes ušít."],["Umíte vyšít i vícebarevné logo?","Ano, umíme. Vše záleží na konkrétním požadavku a domluvě."],["Musíme při každém vyšívání platit program nebo nějaký manipulační poplatek?","Ne, program se platí jen 1x. Při větších zakázkách je program zdarma."],["Vyšijete i jeden kus, když nám nastoupí nový zaměstnanec?","Každému zákazníkovi garantujeme vyšití jakékoliv doobjednávky (i když to bude jenom 1 ks)."],["Potřebujeme naskládat do plastových sáčků šroubky, matičky a těsnění, které přikládáme k našim výrobkům","Kompletační práce, drobné montážní práce – máme více než 20 let zkušeností pro firmy z Kolína i okolí."]];
-  var faq = '<section class="sec" id="faq"><h2 class="t">FAQ</h2><div class="faq">' + faqs.map(function (f) { return '<div><b>' + f[0] + '</b><span>' + f[1] + '</span></div>'; }).join("") + '</div></section>';
+  var faq = '<section class="sec" id="faq"><h2 class="t">FAQ</h2><div class="faq">' + faqs.map(function (f) { return '<details><summary>' + f[0] + '</summary><p>' + f[1] + '</p></details>'; }).join("") + '</div><div class="ctas" style="margin-top:28px"><a class="btn" href="#poptavka">Nezávazná poptávka</a></div></section>';
   var legal = '<section class="sec legal" id="nahradni-plneni"><h2 class="t">Náhradní plnění</h2><p>Firma <b>KOFTEX s.r.o.</b> je dle zákona č. 435/2004 Sb. zaměstnavatel, se kterým Úřad práce uzavřel dohodu o uznání zaměstnavatele na chráněném trhu práce – zaměstnává více než 50% osob se zdravotním postižením z celkového počtu svých zaměstnanců – a <b>může poskytnout svým zákazníkům</b> tzv. <b>náhradní plnění.</b></p>' +
     '<p>Každý zaměstnavatel s více než 25 zaměstnanci musí dle zákona 435/2004 § 81 zaměstnat povinný 4 % podíl zaměstnanců se zdravotním postižením. Tato povinnost se plní:</p>' +
     '<ol><li>Zaměstnáním těchto osob v pracovním poměru</li><li>Odebíráním výrobků nebo služeb od zaměstnavatelů, se kterými Úřad práce uzavřel dohodu o uznání zaměstnavatele dle § 78 zák. 435 (takzvané náhradní plnění)</li><li>Odvodem finančních prostředků do státního rozpočtu</li></ol>' +
