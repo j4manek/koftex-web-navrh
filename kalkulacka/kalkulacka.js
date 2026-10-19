@@ -110,7 +110,7 @@
   function renderSummary() {
     var r = calc(); renderSteps(r);
     $("kc-sum").innerHTML = sumHtml(r) +
-      '<div class="kc-acts"><button type="button" class="btn" data-kc-send' + (r.total ? "" : " disabled") + '>Poslat poptávku s kalkulací</button><button type="button" class="btn ghost" data-kc-copy' + (r.total ? "" : " disabled") + '>Zkopírovat shrnutí</button></div>' +
+      (r.total ? '<div class="kc-acts"><button type="button" class="btn" data-kc-send>Poslat poptávku s kalkulací</button><button type="button" class="btn ghost" data-kc-copy>Zkopírovat shrnutí</button></div>' : "") +
       '<p class="kc-note">Cena je orientační. Konečnou nabídku potvrdíme po posouzení loga a materiálu, cena výšivky se může po zpracování ještě snížit.</p>';
     $("kc-bar").innerHTML = r.total ? '<span>Orientačně bez DPH</span><b>' + money(r.sum) + '</b><a href="#kc-sum">Detail</a>' : '<span>Orientační cena se počítá hned</span>';
     S.colors.forEach(function (c) {
@@ -148,7 +148,7 @@
 
   function onInput(e) {
     var t = e.target; if (!t.closest("#kalkulacka")) return;
-    if (t.dataset.kcQ !== undefined) { S.qty[t.dataset.kcQ] = Math.max(0, parseInt(t.value, 10) || 0); renderSummary(); }
+    if (t.dataset.kcQ !== undefined) { S.qty[t.dataset.kcQ] = Math.min(9999, Math.max(0, parseInt(t.value, 10) || 0)); renderSummary(); }
   }
 
   function onChange(e) {
